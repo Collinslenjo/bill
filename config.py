@@ -1,4 +1,3 @@
 DB_NAME=database
 DB_USERNAME=username
 DB_PASS=password
-
