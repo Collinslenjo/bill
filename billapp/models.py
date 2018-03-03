@@ -30,3 +30,73 @@ class User(db.Model):
 @login_manager.user_loader
 def load_user(email):
     return User.query.filter_by(email = email).first()
+
+# Products model
+class Product(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(25))
+    size = db.Column(db.String(10))
+    price = db.Column(db.Integer)
+
+    def __init__(self, name, size, price):
+        self.name = name
+        self.size = size
+        self.price = price
+
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return str(self.id)
+
+
+# Toppings model
+class Topping(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(25))
+    size = db.Column(db.String(10))
+    price = db.Column(db.Integer)
+    category = db.Column(db.String(36))
+
+    def __init__(self, name, size, price, category):
+        self.name = name
+        self.size = size
+        self.price = price
+        self.category = category
+
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return str(self.id)
+
+
+# Design the orders and toppings tables
+
+# class Order(db.Model):
+#     id = db.Column(db.Integer,primary_key=True)
+#     user_id = db.Column(db.Integer)
+#     product = db.Column(db.Integer) 
+#     price = db.Column(db.Integer)
+#     category = db.Column(db.String(36))
+
+#     def __init__(self, name, size, price, category):
+#         self.name = name
+#         self.size = size
+#         self.price = price
+#         self.category = category
+
+#     def is_authenticated(self):
+#         return True
+#     def is_active(self):
+#         return True
+#     def is_anonymous(self):
+#         return False
+#     def get_id(self):
+#         return str(self.id)
