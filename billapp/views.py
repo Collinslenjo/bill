@@ -2,14 +2,14 @@ from billapp import app,db
 from flask import request, render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, login_required, logout_user,utils
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User
+from models import User, Pizza, Topping, Order 
 
 
 # default route
 @app.route("/")
 def index():
 	if current_user.is_authenticated:
-		return render_template('index.html')
+		return render_template('index.html',title="Home")
 	return redirect(url_for('login'))
 
 # static files 
@@ -24,7 +24,7 @@ def login():
     return redirect(url_for('index'))
   error = None
   if request.method == 'GET':
-    return render_template('login.html')
+    return render_template('login.html',title="Login")
   elif request.method == 'POST':
     if request.form['email'] and request.form['password']:
       user=User.query.filter_by(email=request.form['email']).first()
@@ -39,7 +39,7 @@ def login():
         error = "user doesn't exist"
     else:
       error = "Please fill all the required fields"
-  return render_template('login.html', error=error)
+  return render_template('login.html', error=error,title="Login")
 
 
   # Logout route and method
@@ -57,7 +57,7 @@ def signup():
     return redirect(url_for('index'))
   error = None
   if request.method == 'GET':
-    return render_template('signup.html')
+    return render_template('signup.html',title="Signup")
   elif request.method == 'POST':
     # create user and redirect to home.
     if request.form['name'] and request.form['email'] and request.form['password']:
@@ -72,4 +72,15 @@ def signup():
         return redirect(url_for('index'))
     else:
       error = "Please fill all the required fields"
-    return render_template('signup.html',error=error)
+    return render_template('signup.html',error=error,title="Signup")
+
+
+# Create Pizza Sizes
+@app.route('/pizza',methods=['GET','POST'])
+@login_required
+def pizza():
+  if request.method == 'GET':
+    pizzas = Pizza.query.all()
+    render_template('pizza.html',title="Pizza",pizzas=pizzas)
+  elif request.method == 'POST':
+    render_template('pizza.html',title="Pizza")

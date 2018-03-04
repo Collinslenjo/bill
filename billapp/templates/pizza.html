@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h4 class="pull-left">Applications</h4>
+        <a href="{{ url_for('pizza') }}" class="btn btn-default pull-right" style="margin-bottom: 30px;">
+          <i class="fa fa-plus"></i> Add New Pizza
+        </a>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for pizza in pizzas %}
+            <tr>
+              <td>{{ pizza.name }}</td>
+              <td><a href="/pizza/{{ pizza.id }}">{{pizza.size}}</a></td>
+              <td>{{pizza.price}}</td>
+               <td>
+                    <a href="{{ url_for('edit_pizza', id=pizza.id) }}">
+                      <i class="fa fa-pencil"></i> Edit 
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{ url_for('delete_pizza', id=pizza.id) }}">
+                      <i class="fa fa-trash"></i> Delete 
+                    </a>
+                  </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

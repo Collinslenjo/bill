@@ -32,7 +32,7 @@ def load_user(email):
     return User.query.filter_by(email = email).first()
 
 # Products model
-class Product(db.Model):
+class Pizza(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(25))
     size = db.Column(db.String(10))
@@ -79,24 +79,22 @@ class Topping(db.Model):
 
 # Design the orders and toppings tables
 
-# class Order(db.Model):
-#     id = db.Column(db.Integer,primary_key=True)
-#     user_id = db.Column(db.Integer)
-#     product = db.Column(db.Integer) 
-#     price = db.Column(db.Integer)
-#     category = db.Column(db.String(36))
+class Order(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer)
+    order_details = db.Column(db.String(600)) 
+    total_amount = db.Column(db.Integer)
 
-#     def __init__(self, name, size, price, category):
-#         self.name = name
-#         self.size = size
-#         self.price = price
-#         self.category = category
+    def __init__(self, user_id, order_details, total_amount):
+        self.user_id = user_id
+        self.order_details = order_details
+        self.total_amount = total_amount
 
-#     def is_authenticated(self):
-#         return True
-#     def is_active(self):
-#         return True
-#     def is_anonymous(self):
-#         return False
-#     def get_id(self):
-#         return str(self.id)
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return str(self.id)
