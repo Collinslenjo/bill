@@ -81,6 +81,49 @@ def signup():
 def pizza():
   if request.method == 'GET':
     pizzas = Pizza.query.all()
-    render_template('pizza.html',title="Pizza",pizzas=pizzas)
+    return render_template('pizza.html',title="Pizza",pizzas=pizzas)
   elif request.method == 'POST':
-    render_template('pizza.html',title="Pizza")
+    if request.form['name'] and request.form['size'] and request.form['price']:
+      if Pizza.query.filter_by(size=request.form['size']).first():
+        error = "Pizza Size already exists"
+      else:
+        newPizza = Pizza(request.form['name'],request.form['size'],request.form['price'])
+        db.session.add(newPizza)
+        db.session.commit()
+        flash("New Pizza Added")
+        return redirect(url_for('pizza'))
+    else:
+      error = "Please fill all the required fields"
+    return render_template('pizza.html',title="Pizza")
+# Show pizza
+@app.route('/pizza/<int:id>', methods=['GET', 'POST'])
+@login_required
+def view_app(id):
+  # List the pizza details
+  pizza = Pizza.query.filter_by(id=id).first()
+  return render_template('view.html',pizza=pizza)
+
+# Edit Pizza
+@app.route('/pizza/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_pizza(id):
+  pizza = Pizza.query.get_or_404(id)
+  if request.method == 'POST':
+    if request.form['name'] and request.form['size'] and request.form['price']:
+      pizza.name = request.form['name']
+      pizza.size = request.form['size']
+      pizza.price = request.form['price']
+      db.session.add(pizza)
+      db.session.commit()
+      flash('You have successfully Edited the pizza.')
+      return redirect(url_for('pizza'))
+  return render_template('editpizza.html',form=pizza, id=id)
+# Delete Pizza
+@app.route('/pizza/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_pizza(id):
+  pizza = Pizza.query.get_or_404(id)
+  db.session.delete(pizza)
+  db.session.commit()
+  flash('You have successfully deleted the pizza.')
+  return redirect(url_for('pizza'))

@@ -3,8 +3,11 @@
 <head>
 	<title>{{title}} - Mova-Pizza</title>
 	<!-- CSS -->
+  {% if current_user.is_authenticated %}
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" >
+  {% else %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+  {% endif %}
 </head>
 <body>
 
