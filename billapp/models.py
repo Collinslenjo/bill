@@ -10,6 +10,9 @@ class User(db.Model):
     name= db.Column(db.String(25))
     email = db.Column(db.String(80), primary_key=False, unique=True)
     password = db.Column(db.String(256))
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+    
     def __init__(self, name, email, password):
         self.name = name
         self.email = email
@@ -37,6 +40,8 @@ class Pizza(db.Model):
     name = db.Column(db.String(25))
     size = db.Column(db.String(10), unique=True)
     price = db.Column(db.Integer)
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __init__(self, name, size, price):
         self.name = name
@@ -60,6 +65,8 @@ class Topping(db.Model):
     size = db.Column(db.String(10))
     price = db.Column(db.Integer)
     category = db.Column(db.String(36))
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __init__(self, name, size, price, category):
         self.name = name
@@ -82,8 +89,8 @@ class Topping(db.Model):
 class Order(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     user_id = db.Column(db.Integer)
-    order_details = db.Column(db.String(600)) 
-    total_amount = db.Column(db.Integer)
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
     def __init__(self, user_id, order_details, total_amount):
         self.user_id = user_id
@@ -98,3 +105,12 @@ class Order(db.Model):
         return False
     def get_id(self):
         return str(self.id)
+
+class OrderItems(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    order_id = db.Column(db.Integer)
+    item_id = db.Column(db.Integer)
+    price = db.Column(db.Integer)
+    quantity = db.Column(db.Integer)
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
