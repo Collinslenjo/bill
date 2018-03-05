@@ -1,7 +1,62 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<h3 class="heading">Display all here</h3>
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+      	<h3 class="heading">Display all here</h3>
+      </div>
+  </div>
+</div>
+
+
+<div class="row">
+    <!-- BEGIN PRODUCTS -->
+    <div class="col-md-4 col-sm-6">
+    
+        <!-- PRODUCT CONTAINER, identified by the class "sc-product-item"  -->
+        <div class="sc-product-item">
+            <!-- PRODUCT IMAGE, identified by data-name="product_image"  -->
+            <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text=Product+1" alt="...">
+            
+            <!-- PRODUCT NAME, identified by data-name="product_name" or can be an element with name="product_name"  -->
+            <h4 data-name="product_name">Product 1</h4>
+            <!-- PRODUCT DESCRIPTION, identified by data-name="product_desc" or can be an element with name="product_desc"  -->
+            <p data-name="product_desc">Product details</p>
+
+            <!-- PRODUCT PRICE, identified by name="product_price" or can be an element with data-name="product_price"  -->
+            <input name="product_price" value="2990.50" type="hidden" />
+            <!-- PRODUCT ID, identified by name="product_id" or can be an element with data-name="product_id"  -->
+            <input name="product_id" value="12" type="hidden" />
+            
+            <!-- ADD TO CART BUTTON, identified by class="sc-add-to-cart"  -->
+            <button class="sc-add-to-cart btn btn-success">Add to cart</button>
+        </div>
+        
+    </div>
+    <div class="col-md-4 col-sm-6">
+
+        <!-- PRODUCT CONTAINER 2 -->
+        <div class="sc-product-item">
+            <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text=Product+2" alt="...">
+
+            <h4 data-name="product_name">Product 2</h4>
+            <p data-name="product_desc">Product details</p>
+
+            <input name="product_price" value="320.75" type="hidden" />
+            <input name="product_id" value="14" type="hidden" />
+            <button class="sc-add-to-cart btn btn-success">Add to cart</button>
+        </div>
+ 
+    </div>
+    <!-- END PRODUCTS -->
+</div>
+
+<form action="results.php" method="POST"> 
+    <!-- SmartCart element -->
+    <div id="smartcart"></div>
+</form>
+
 
 
 {% endblock %}
