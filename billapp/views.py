@@ -127,3 +127,57 @@ def delete_pizza(id):
   db.session.commit()
   flash('You have successfully deleted the pizza.')
   return redirect(url_for('pizza'))
+
+  # Create toppings
+@app.route('/topping',methods=['GET','POST'])
+@login_required
+def topping():
+  if request.method == 'GET':
+    toppings = Topping.query.all()
+    return render_template('topping.html',title="Toppings",toppings=toppings)
+  elif request.method == 'POST':
+    if request.form['name'] and request.form['category'] and request.form['type'] and request.form['price']:
+      if Pizza.query.filter_by(name=request.form['name']).first():
+        error = "Topping already exists"
+      else:
+        newTopping = Topping(request.form['name'],request.form['category'],request.form['type'],request.form['price'])
+        db.session.add(newTopping)
+        db.session.commit()
+        flash("New Topping Added")
+        return redirect(url_for('topping'))
+    else:
+      error = "Please fill all the required fields"
+    return render_template('topping.html',title="Toppings")
+# Show topping
+@app.route('/topping/<int:id>', methods=['GET', 'POST'])
+@login_required
+def view_topping(id):
+  # List the topping details
+  topping = Topping.query.filter_by(id=id).first()
+  return render_template('view_topping.html',topping=topping)
+
+# Edit topping
+@app.route('/topping/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_topping(id):
+  topping = Topping.query.get_or_404(id)
+  if request.method == 'POST':
+    if request.form['name'] and request.form['category'] and request.form['type'] and request.form['price']:
+      topping.name = request.form['name']
+      topping.type = request.form['type']
+      topping.size = request.form['category']
+      topping.price = request.form['price']
+      db.session.add(topping)
+      db.session.commit()
+      flash('You have successfully Edited the topping.')
+      return redirect(url_for('topping'))
+  return render_template('edit_topping.html',form=topping, id=id)
+# Delete topping
+@app.route('/topping/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_topping(id):
+  topping = Topping.query.get_or_404(id)
+  db.session.delete(topping)
+  db.session.commit()
+  flash('You have successfully deleted the topping.')
+  return redirect(url_for('topping'))

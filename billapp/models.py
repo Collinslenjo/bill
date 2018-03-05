@@ -62,15 +62,15 @@ class Pizza(db.Model):
 class Topping(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(25))
-    size = db.Column(db.String(10))
-    price = db.Column(db.Integer)
     category = db.Column(db.String(36))
+    type = db.Column(db.String(36))
+    price = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __init__(self, name, size, price, category):
+    def __init__(self, name, category, type, price):
         self.name = name
-        self.size = size
+        self.type = type
         self.price = price
         self.category = category
 

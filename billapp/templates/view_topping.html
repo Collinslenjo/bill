@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h3 class="pull-left"><strong>{{topping.name}}</strong></h3>
+        <br><br><br>
+
+            <h4>Name:</h4> {{topping.name}}
+            <h4>Size:</h4> {{topping.category}}
+            <h4>Size:</h4> {{topping.type}}
+            <h4>Price:</h4> KSh. {{topping.price}}
+            <br>
+            <hr>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -5,34 +5,36 @@
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <h4 class="pull-left">Pizza</h4>
-        <button class="btn btn-default pull-right" style="margin-bottom: 30px;" data-toggle="modal" data-target="#pizzaModal">
-          <i class="fa fa-plus"></i> Add New Pizza
+        <h4 class="pull-left">Toppings</h4>
+        <button class="btn btn-default pull-right" style="margin-bottom: 30px;" data-toggle="modal" data-target="#toppingModal">
+          <i class="fa fa-plus"></i> Add New Topping
         </button>
 
         <table class="table table-hover">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Size</th>
+              <th>Category</th>
+              <th>Type</th>
               <th>Price</th>
               <th></th>
             </tr>
           </thead>
 
           <tbody>
-            {% for pizza in pizzas %}
+            {% for topping in toppings %}
             <tr>
-              <td>{{ pizza.name }}</td>
-              <td><a href="/pizza/{{ pizza.id }}">{{pizza.size}}</a></td>
-              <td>{{pizza.price}}</td>
+              <td><a href="/topping/{{ topping.id }}">{{ topping.name }}</a></td>
+              <td>{{topping.category}}</td>
+              <td>{{topping.type}}</td>
+              <td>{{topping.price}}</td>
                <td>
-                    <a href="{{ url_for('edit_pizza', id=pizza.id) }}">
+                    <a href="{{ url_for('edit_topping', id=topping.id) }}">
                       <i class="fa fa-pencil"></i> Edit 
                     </a>
                   </td>
                   <td>
-                    <a href="{{ url_for('delete_pizza', id=pizza.id) }}">
+                    <a href="{{ url_for('delete_topping', id=topping.id) }}">
                       <i class="fa fa-trash"></i> Delete 
                     </a>
                   </td>
@@ -47,25 +49,29 @@
 
 
 <!-- Modal -->
-<div id="pizzaModal" class="modal fade" role="dialog">
+<div id="toppingModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Pizza</h4>
+        <h4 class="modal-title">Add Topping</h4>
       </div>
       <div class="modal-body">
         <span class="throw_error"></span>
-        <form action="{{ url_for('pizza') }}" method="POST">
+        <form action="{{ url_for('topping') }}" method="POST">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" name="name" class="form-control" style="width: 80%;">
           </div>
           <div class="form-group">
-          	<label for="name">Size</label>
-          	<input type="text" name="size" class="form-control" style="width: 80%;">
+          	<label for="name">Category</label>
+          	<input type="text" name="category" class="form-control" style="width: 80%;">
+          </div>
+          <div class="form-group">
+            <label for="name">Type</label>
+            <input type="text" name="type" class="form-control" style="width: 80%;">
           </div>
           <div class="form-group">
           	<label for="name">Price</label>
