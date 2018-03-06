@@ -15,6 +15,14 @@
 
                 <input name="product_price" value="{{pizza.price}}" type="hidden" />
                 <input name="product_id" value="{{pizza.id}}" type="hidden" />
+                <input name="product_size" value="{{pizza.size}}" type="hidden" />
+                {% if pizza.size == 'Small' %}
+                <input type="hidden" name="topping_type" value="small">
+                {% elif pizza.size == 'Medium' %}
+                <input type="hidden" name="topping_type" value="medium">
+                {% elif pizza.size == 'Large' %}
+                <input type="hidden" name="topping_type" value="large">
+                {% endif %}
                 <button class="sc-add-to-cart btn btn-success">Add to cart</button>
             </div>
         </div>
@@ -31,12 +39,15 @@
 
                 <h4 data-name="product_name">{{topping.name}}</h4>
                 <p data-name="product_desc">
-                 {{topping.size}} <br>
+                 {{topping.type}} <br>
                  Category: {{topping.category}}
                 </p>
 
                 <input name="product_price" value="{{topping.price}}" type="hidden" />
                 <input name="product_id" value="{{topping.id}}" type="hidden" />
+                <input type="hidden" name="topping_type" value="{{topping.type}}">
+                <input name="product_size" value="{{topping.type}}" type="hidden" />
+                <input name="topping_name" value="{{topping.name}}" type="hidden" />
                 <button class="sc-add-to-cart btn btn-success">Add Topping</button>
             </div>
         </div>
@@ -50,6 +61,5 @@
 
   </div>
 </div>
-
 
 {% endblock %}

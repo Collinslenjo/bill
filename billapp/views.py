@@ -3,7 +3,7 @@ from flask import request, render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, login_required, logout_user,utils
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Pizza, Topping, Order, OrderItems
-import json
+import json, ast, sys
 
 # default route
 @app.route("/")
@@ -184,16 +184,33 @@ def delete_topping(id):
   flash('You have successfully deleted the topping.')
   return redirect(url_for('topping'))
 
+
+def get_or_create( model, **kwargs):
+    instance = db.session.query(model).filter_by(**kwargs).first()
+    if instance:
+        return instance
+    else:
+        instance = model(**kwargs)
+        db.session.add(instance)
+        db.session.commit()
+        return instance
 # Orders
 @app.route('/order', methods=['POST'])
 @login_required
 def order():
-  # content = request.get_json()
-  # Order(current_user.id)
-  # pizza = Pizza.query.filter_by(id=request.form['id'])
-  # topping = Topping.query.filter_by(id=request.form['id'])
-  # price = request.form['price']
-  # order_items = OrderItems(order,pizza,topping)
-  content = request.args
-  flash(content)
+  json_data = ast.literal_eval(json.dumps(request.form))
+  data = json.loads(json.dumps(json_data, sys.stdout))['cart_list']
+  datas = ast.literal_eval(data)
+  order = Order(user_id=current_user.id)
+  db.session.add(order)
+  db.session.commit()
+  for item in datas:
+    pizza = Pizza.query.get_or_404(int(item['product_id']))
+    topping = Topping.query.filter_by(type=item['topping_type'],name=item['product_name']).first()
+    price = item['product_price']
+    quantity = item['product_quantity']
+    order_items = OrderItems(order.id,pizza.id,topping.id,price,quantity)
+    db.session.add(order_items)
+    db.session.commit()
+
   return redirect(url_for('index'))

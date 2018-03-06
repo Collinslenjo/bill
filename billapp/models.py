@@ -112,8 +112,24 @@ class OrderItems(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'), nullable=False)
-    topping_id = db.Column(db.Integer, db.ForeignKey('topping.id'), nullable=False)
+    topping_id = db.Column(db.Integer, db.ForeignKey('topping.id'))
     price = db.Column(db.Integer)
     quantity = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
+    def __init__(self, order_id,pizza_id,topping_id,price,quantity):
+        self.order_id = order_id
+        self.pizza_id = pizza_id
+        self.topping_id = topping_id
+        self.price = price
+        self.quantity = quantity
+
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return str(self.id)
