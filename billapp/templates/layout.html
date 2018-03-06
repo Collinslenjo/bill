@@ -72,7 +72,16 @@
 <script src="{{ url_for('static', filename='js/jquery.smartCart.min.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-  $('#smartcart').smartCart();
+  $('#smartcart').smartCart(
+    {
+    locales: 'en-US', // A string with a BCP 47 language tag, or an array of such strings
+    currencyOptions:  {
+        style: 'currency', 
+        currency: 'KES', 
+        currencyDisplay: 'symbol'
+    } // extra settings for the currency formatter. Refer: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
+}
+    );
 });
 </script>
 

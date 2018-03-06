@@ -2,15 +2,17 @@ from billapp import app,db
 from flask import request, render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, login_required, logout_user,utils
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User, Pizza, Topping, Order 
-
+from models import User, Pizza, Topping, Order, OrderItems
+import json
 
 # default route
 @app.route("/")
 def index():
-	if current_user.is_authenticated:
-		return render_template('index.html',title="Home")
-	return redirect(url_for('login'))
+  if current_user.is_authenticated:
+    pizza = Pizza.query.all()
+    topping = Topping.query.all()
+    return render_template('index.html',title="Home", pizzas=pizza, toppings=topping)
+  return redirect(url_for('login'))
 
 # static files 
 @app.route('/<path:path>',methods=['GET'])
@@ -181,3 +183,17 @@ def delete_topping(id):
   db.session.commit()
   flash('You have successfully deleted the topping.')
   return redirect(url_for('topping'))
+
+# Orders
+@app.route('/order', methods=['POST'])
+@login_required
+def order():
+  # content = request.get_json()
+  # Order(current_user.id)
+  # pizza = Pizza.query.filter_by(id=request.form['id'])
+  # topping = Topping.query.filter_by(id=request.form['id'])
+  # price = request.form['price']
+  # order_items = OrderItems(order,pizza,topping)
+  content = request.args
+  flash(content)
+  return redirect(url_for('index'))

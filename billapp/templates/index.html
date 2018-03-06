@@ -3,60 +3,53 @@
 
 <div class="container-fluid">
     <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-      	<h3 class="heading">Display all here</h3>
+      <div class="col-md-8">
+      	<h3 class="heading">Pizza</h3>
+        {% for pizza in pizzas %}
+        <div class="col-md-4" style="margin-top: 10px;">
+            <div class="sc-product-item">
+                <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text={{pizza.name}}" alt="...">
+
+                <h4 data-name="product_name">{{pizza.name}}</h4>
+                <p data-name="product_desc">{{pizza.size}}</p>
+
+                <input name="product_price" value="{{pizza.price}}" type="hidden" />
+                <input name="product_id" value="{{pizza.id}}" type="hidden" />
+                <button class="sc-add-to-cart btn btn-success">Add to cart</button>
+            </div>
+        </div>
+        {% endfor %}
+        <br/>
+        <br/>
+        
+        <div class="col-md-12" style="margin-top: 30px;">
+        <h3 class="heading">Toppings</h3>
+        {% for topping in toppings %}
+        <div class="col-md-4" style="margin-top: 10px;">
+            <div class="sc-product-item">
+                <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text={{topping.name}}" alt="...">
+
+                <h4 data-name="product_name">{{topping.name}}</h4>
+                <p data-name="product_desc">
+                 {{topping.size}} <br>
+                 Category: {{topping.category}}
+                </p>
+
+                <input name="product_price" value="{{topping.price}}" type="hidden" />
+                <input name="product_id" value="{{topping.id}}" type="hidden" />
+                <button class="sc-add-to-cart btn btn-success">Add Topping</button>
+            </div>
+        </div>
+        {% endfor %}
+       </div>
       </div>
+
+    <form action="/order" method="POST"> 
+        <div id="smartcart" class="col-md-4"></div>
+    </form>
+
   </div>
 </div>
-
-
-<div class="row">
-    <!-- BEGIN PRODUCTS -->
-    <div class="col-md-4 col-sm-6">
-    
-        <!-- PRODUCT CONTAINER, identified by the class "sc-product-item"  -->
-        <div class="sc-product-item">
-            <!-- PRODUCT IMAGE, identified by data-name="product_image"  -->
-            <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text=Product+1" alt="...">
-            
-            <!-- PRODUCT NAME, identified by data-name="product_name" or can be an element with name="product_name"  -->
-            <h4 data-name="product_name">Product 1</h4>
-            <!-- PRODUCT DESCRIPTION, identified by data-name="product_desc" or can be an element with name="product_desc"  -->
-            <p data-name="product_desc">Product details</p>
-
-            <!-- PRODUCT PRICE, identified by name="product_price" or can be an element with data-name="product_price"  -->
-            <input name="product_price" value="2990.50" type="hidden" />
-            <!-- PRODUCT ID, identified by name="product_id" or can be an element with data-name="product_id"  -->
-            <input name="product_id" value="12" type="hidden" />
-            
-            <!-- ADD TO CART BUTTON, identified by class="sc-add-to-cart"  -->
-            <button class="sc-add-to-cart btn btn-success">Add to cart</button>
-        </div>
-        
-    </div>
-    <div class="col-md-4 col-sm-6">
-
-        <!-- PRODUCT CONTAINER 2 -->
-        <div class="sc-product-item">
-            <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text=Product+2" alt="...">
-
-            <h4 data-name="product_name">Product 2</h4>
-            <p data-name="product_desc">Product details</p>
-
-            <input name="product_price" value="320.75" type="hidden" />
-            <input name="product_id" value="14" type="hidden" />
-            <button class="sc-add-to-cart btn btn-success">Add to cart</button>
-        </div>
- 
-    </div>
-    <!-- END PRODUCTS -->
-</div>
-
-<form action="results.php" method="POST"> 
-    <!-- SmartCart element -->
-    <div id="smartcart"></div>
-</form>
-
 
 
 {% endblock %}
