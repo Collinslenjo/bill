@@ -184,16 +184,6 @@ def delete_topping(id):
   flash('You have successfully deleted the topping.')
   return redirect(url_for('topping'))
 
-
-def get_or_create( model, **kwargs):
-    instance = db.session.query(model).filter_by(**kwargs).first()
-    if instance:
-        return instance
-    else:
-        instance = model(**kwargs)
-        db.session.add(instance)
-        db.session.commit()
-        return instance
 # Orders
 @app.route('/order', methods=['POST'])
 @login_required
