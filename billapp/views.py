@@ -2,7 +2,7 @@ from billapp import app,db
 from flask import request, render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, login_required, logout_user,utils
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User, Pizza, Topping, Order, OrderItems
+from models import User, Pizza, Topping, Order, PizzaOrderItems, ToppingOrderItems
 import json, ast, sys
 
 # default route
@@ -197,10 +197,12 @@ def order():
   for item in datas:
     pizza = Pizza.query.get_or_404(int(item['product_id']))
     topping = Topping.query.filter_by(type=item['topping_type'],name=item['product_name']).first()
-    price = item['product_price']
     quantity = item['product_quantity']
-    order_items = OrderItems(order.id,pizza.id,topping.id,price,quantity)
-    db.session.add(order_items)
+    pizza_items = PizzaOrderItems(order.id,pizza.id,quantity)
+    db.session.add(pizza_items)
+    db.session.commit()
+    topping_items = ToppingOrderItems(order.id,topping.id,quantity)
+    db.session.add(topping_items)
     db.session.commit()
   return generate_receipt(order.id)
 
