@@ -212,5 +212,11 @@ def order():
     order_items = OrderItems(order.id,pizza.id,topping.id,price,quantity)
     db.session.add(order_items)
     db.session.commit()
+  return generate_receipt(order.id)
 
   return redirect(url_for('index'))
+
+@app.route('/receipt/<int:id>')
+@login_required
+def generate_receipt(id):
+  return "generated receipt"
