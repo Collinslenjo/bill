@@ -108,12 +108,10 @@ class Order(db.Model):
     def get_id(self):
         return str(self.id)
 
-class OrderItems(db.Model):
+class PizzaOrderItems(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'), nullable=False)
-    topping_id = db.Column(db.Integer, db.ForeignKey('topping.id'))
-    price = db.Column(db.Integer)
     quantity = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -123,6 +121,29 @@ class OrderItems(db.Model):
         self.pizza_id = pizza_id
         self.topping_id = topping_id
         self.price = price
+        self.quantity = quantity
+
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return str(self.id)
+
+
+class ToppingOrderItems(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    topping_id = db.Column(db.Integer, db.ForeignKey('topping.id'))
+    quantity = db.Column(db.Integer)
+    created_on = db.Column(db.DateTime, server_default=db.func.now())
+    updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
+        def __init__(self, order_id,topping_id,quantity):
+        self.order_id = order_id
+        self.topping_id = topping_id
         self.quantity = quantity
 
     def is_authenticated(self):
