@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div class="col-md-6 col-md-offset-3">
+	<h2>Receipt</h2>
+  <hr>
+
+<h4>pizza</h4>
+{% for pizza in pizzas %}
+{{pizza.name}} - {{pizza.price}}<br>
+{% endfor %}
+
+
+<h4>Toppings</h4>
+{% for topping in toppings %}
+{{topping.name}} - {{topping.price}}<br>
+{% endfor %}
+
+
+<h4>Pizza quantities</h4>
+
+{% for pizz in pizz_q %}
+{{pizz}}<br>
+{% endfor %}
+
+
+<h4>Topping quantities</h4>
+
+{% for topp in topp_q %}
+{{topp}}<br>
+{% endfor %}
+
+</div>
+
+
+{% endblock %}

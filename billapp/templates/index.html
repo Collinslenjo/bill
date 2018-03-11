@@ -6,6 +6,8 @@
       <div class="col-md-8">
       	<h3 class="heading">Pizza</h3>
         {% for pizza in pizzas %}
+        {% if pizza.name == "None" %}
+        {% else %}
         <div class="col-md-4" style="margin-top: 10px;">
             <div class="sc-product-item">
                 <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text={{pizza.name}}" alt="...">
@@ -17,39 +19,132 @@
                 <input name="product_id" value="{{pizza.id}}" type="hidden" />
                 <input name="product_size" value="{{pizza.size}}" type="hidden" />
                 {% if pizza.size == 'Small' %}
-                <input type="hidden" name="topping_type" value="small">
-
-                  <div class="multiselect">
-                    <div class="selectBox" onclick="showCheckboxes()">
-                      <select name="topping_id">
-                        <option>Select an option</option>
-                      </select>
-                      <div class="overSelect"></div>
-                    </div>
-                    <div id="checkboxes">
-                     {% for topping in toppings %}
-                     <option value="{{topping.id}}">
-                      <label for="{{topping.id}}">
-                        <input type="checkbox" id="{{topping.id}}" />{{topping.name}}</label>
-                        </option>
-                     {% endfor %}
-                    </div>
-                  </div>
-
+                    <input name="topping_id" value="25" type="hidden" />
+                    <button class="btn btn-info pull-right" style="margin-bottom: 30px;" data-toggle="modal" data-target="#toppingSmallModal"><i class="fa fa-plus"></i> Add Topping </button>
                 {% elif pizza.size == 'Medium' %}
-                <input type="hidden" name="topping_type" value="medium">
+                    <input name="topping_id" value="25" type="hidden" />
+                    <button class="btn btn-info pull-right" style="margin-bottom: 30px;" data-toggle="modal" data-target="#toppingMediumModal"><i class="fa fa-plus"></i> Add Topping </button>
                 {% elif pizza.size == 'Large' %}
-                <input type="hidden" name="topping_type" value="large">
+                    <input name="topping_id" value="25" type="hidden" />
+                    <button class="btn btn-info pull-right" style="margin-bottom: 30px;" data-toggle="modal" data-target="#toppingLargeModal"><i class="fa fa-plus"></i> Add Topping </button>
                 {% endif %}
                 <button class="sc-add-to-cart btn btn-success">Add to cart</button>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
-        <br/>
-        <br/>
         
-        <div class="col-md-12" style="margin-top: 30px;">
-        <h3 class="heading">Toppings</h3>
+      </div>
+
+    <form action="/order" method="POST"> 
+        <div id="smartcart" class="col-md-4"></div>
+    </form>
+
+  </div>
+</div>
+
+
+
+
+<!-- Small Modal -->
+<div id="toppingSmallModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Topping</h4>
+      </div>
+      <div class="modal-body">
+
+        {% for topping in toppingsmall %}
+        <div class="col-md-4" style="margin-top: 10px;">
+            <div class="sc-product-item">
+                <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text={{topping.name}}" alt="...">
+
+                <h4 data-name="product_name">{{topping.name}}</h4>
+                <p data-name="product_desc">
+                 {{topping.type}} <br>
+                 Category: {{topping.category}}
+                </p>
+
+                <input name="product_price" value="{{topping.price}}" type="hidden" />
+                <input name="topping_id" value="{{topping.id}}" type="hidden" />
+                <input type="hidden" name="topping_type" value="{{topping.type}}">
+                <input name="product_size" value="{{topping.type}}" type="hidden" />
+                <input name="product_name" value="{{topping.name}}" type="hidden" />
+                <input name="product_id" value="4" type="hidden" />
+                <button class="sc-add-to-cart btn btn-success">Add Topping</button>
+            </div>
+        </div>
+        {% endfor %}
+
+      </div>
+      <div class="modal-footer" style="border: none;">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Medium Modal -->
+<div id="toppingMediumModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Topping</h4>
+      </div>
+      <div class="modal-body">
+
+       {% for topping in toppingmedium %}
+        <div class="col-md-4" style="margin-top: 10px;">
+            <div class="sc-product-item">
+                <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text={{topping.name}}" alt="...">
+
+                <h4 data-name="product_name">{{topping.name}}</h4>
+                <p data-name="product_desc">
+                 {{topping.type}} <br>
+                 Category: {{topping.category}}
+                </p>
+
+                <input name="product_price" value="{{topping.price}}" type="hidden" />
+                <input name="topping_id" value="{{topping.id}}" type="hidden" />
+                <input type="hidden" name="topping_type" value="{{topping.type}}">
+                <input name="product_size" value="{{topping.type}}" type="hidden" />
+                <input name="topping_name" value="{{topping.name}}" type="hidden" />
+                <input name="product_id" value="4" type="hidden" />
+                <button class="sc-add-to-cart btn btn-success">Add Topping</button>
+            </div>
+        </div>
+        {% endfor %}
+
+      </div>
+      <div class="modal-footer" style="border: none;">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- Large Modal -->
+<div id="toppingLargeModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Topping</h4>
+      </div>
+      <div class="modal-body">
+        
         {% for topping in toppings %}
         <div class="col-md-4" style="margin-top: 10px;">
             <div class="sc-product-item">
@@ -66,18 +161,20 @@
                 <input type="hidden" name="topping_type" value="{{topping.type}}">
                 <input name="product_size" value="{{topping.type}}" type="hidden" />
                 <input name="topping_name" value="{{topping.name}}" type="hidden" />
+                <input name="product_id" value="4" type="hidden" />
                 <button class="sc-add-to-cart btn btn-success">Add Topping</button>
             </div>
         </div>
         {% endfor %}
-       </div>
-      </div>
 
-    <form action="/order" method="POST"> 
-        <div id="smartcart" class="col-md-4"></div>
-    </form>
+      </div>
+      <div class="modal-footer" style="border: none;">
+      </div>
+    </div>
 
   </div>
 </div>
+
+
 
 {% endblock %}

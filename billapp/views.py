@@ -10,8 +10,10 @@ import json, ast, sys
 def index():
   if current_user.is_authenticated:
     pizza = Pizza.query.all()
-    topping = Topping.query.all()
-    return render_template('index.html',title="Home", pizzas=pizza, toppings=topping)
+    toppingsmall = Topping.query.filter_by(type="small")
+    toppingmedium = Topping.query.filter_by(type="medium")
+    topping = Topping.query.filter_by(type="large")
+    return render_template('index.html',title="Home", pizzas=pizza, toppings=topping, toppingsmall=toppingsmall,toppingmedium=toppingmedium)
   return redirect(url_for('login'))
 
 # static files 
@@ -195,21 +197,30 @@ def order():
   db.session.add(order)
   db.session.commit()
   for item in datas:
-    pizza = Pizza.query.get_or_404(int(item['product_id']))
-    topping = Topping.query.get_or_404(int(item['topping_id']))
-    # topping = Topping.query.filter_by(type=item['topping_type'],name=item['product_name']).first()
+    pizza = Pizza.query.get_or_404(item['product_id'])
+    topping = Topping.query.get_or_404(item['topping_id'])
     quantity = item['product_quantity']
-    pizza_items = PizzaOrderItems(order.id,pizza.id,quantity)
-    db.session.add(pizza_items)
-    db.session.commit()
-    topping_items = ToppingOrderItems(order.id,topping.id,quantity)
-    db.session.add(topping_items)
-    db.session.commit()
+    if pizza != None:
+      pizza_items = PizzaOrderItems(order.id,pizza.id,quantity)
+      db.session.add(pizza_items)
+      db.session.commit()
+    if topping != None:
+      topping_items = ToppingOrderItems(order.id,topping.id,quantity)
+      db.session.add(topping_items)
+      db.session.commit()
   return generate_receipt(order.id)
 
-  return redirect(url_for('index'))
+  # return redirect(url_for('index'))
 
-@app.route('/receipt/<int:id>')
+@app.route('/receipt/<int:id>', methods=['GET','POST'])
 @login_required
 def generate_receipt(id):
-  return "generated receipt"
+  topping_items = ToppingOrderItems.query.filter_by(order_id=id).all()
+  pizza_items = PizzaOrderItems.query.filter_by(order_id=id).all()
+  topps = [item.topping_id for item in topping_items]
+  topp_q = [item.quantity for item in topping_items]
+  pizz_q = [item.quantity for item in pizza_items]
+  toppings = Topping.query.filter(Topping.id.in_(topps))
+  items = [item.pizza_id for item in pizza_items]
+  pizzas = Pizza.query.filter(Pizza.id.in_(items))
+  return render_template('receipt.html', title="receipt", toppings=toppings, pizzas=pizzas,topp_q=topp_q,pizz_q=pizz_q)
