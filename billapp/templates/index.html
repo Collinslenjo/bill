@@ -18,6 +18,24 @@
                 <input name="product_size" value="{{pizza.size}}" type="hidden" />
                 {% if pizza.size == 'Small' %}
                 <input type="hidden" name="topping_type" value="small">
+
+                  <div class="multiselect">
+                    <div class="selectBox" onclick="showCheckboxes()">
+                      <select name="topping_id">
+                        <option>Select an option</option>
+                      </select>
+                      <div class="overSelect"></div>
+                    </div>
+                    <div id="checkboxes">
+                     {% for topping in toppings %}
+                     <option value="{{topping.id}}">
+                      <label for="{{topping.id}}">
+                        <input type="checkbox" id="{{topping.id}}" />{{topping.name}}</label>
+                        </option>
+                     {% endfor %}
+                    </div>
+                  </div>
+
                 {% elif pizza.size == 'Medium' %}
                 <input type="hidden" name="topping_type" value="medium">
                 {% elif pizza.size == 'Large' %}
@@ -44,7 +62,7 @@
                 </p>
 
                 <input name="product_price" value="{{topping.price}}" type="hidden" />
-                <input name="product_id" value="{{topping.id}}" type="hidden" />
+                <input name="topping_id" value="{{topping.id}}" type="hidden" />
                 <input type="hidden" name="topping_type" value="{{topping.type}}">
                 <input name="product_size" value="{{topping.type}}" type="hidden" />
                 <input name="topping_name" value="{{topping.name}}" type="hidden" />

@@ -43,7 +43,7 @@ class Pizza(db.Model):
     price = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-    Order_items = db.relationship('OrderItems', backref='pizza', lazy='dynamic')
+    pizza_order_item = db.relationship('PizzaOrderItems', backref='pizza', lazy='dynamic')
 
     def __init__(self, name, size, price):
         self.name = name
@@ -69,7 +69,7 @@ class Topping(db.Model):
     price = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-    Order_items = db.relationship('OrderItems', backref='topping', lazy='dynamic')
+    topping_order_item = db.relationship('ToppingOrderItems', backref='topping', lazy='dynamic')
 
     def __init__(self, name, category, type, price):
         self.name = name
@@ -94,7 +94,8 @@ class Order(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'), nullable=False)
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
-    oderId = db.relationship('OrderItems', backref='order', lazy='dynamic')
+    orderId = db.relationship('PizzaOrderItems', backref='order', lazy='dynamic')
+    orderId = db.relationship('ToppingOrderItems', backref='order', lazy='dynamic')
 
     def __init__(self, user_id):
         self.user_id = user_id
@@ -116,11 +117,9 @@ class PizzaOrderItems(db.Model):
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-    def __init__(self, order_id,pizza_id,topping_id,price,quantity):
+    def __init__(self, order_id,pizza_id,quantity):
         self.order_id = order_id
         self.pizza_id = pizza_id
-        self.topping_id = topping_id
-        self.price = price
         self.quantity = quantity
 
     def is_authenticated(self):
@@ -141,7 +140,7 @@ class ToppingOrderItems(db.Model):
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
-        def __init__(self, order_id,topping_id,quantity):
+    def __init__(self, order_id,topping_id,quantity):
         self.order_id = order_id
         self.topping_id = topping_id
         self.quantity = quantity

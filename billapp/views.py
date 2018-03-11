@@ -196,7 +196,8 @@ def order():
   db.session.commit()
   for item in datas:
     pizza = Pizza.query.get_or_404(int(item['product_id']))
-    topping = Topping.query.filter_by(type=item['topping_type'],name=item['product_name']).first()
+    topping = Topping.query.get_or_404(int(item['topping_id']))
+    # topping = Topping.query.filter_by(type=item['topping_type'],name=item['product_name']).first()
     quantity = item['product_quantity']
     pizza_items = PizzaOrderItems(order.id,pizza.id,quantity)
     db.session.add(pizza_items)
