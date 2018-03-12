@@ -4,6 +4,7 @@
 
 #### Run the app
 - create a mysql database and update the following line in ```__init__.py``` like ```app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://YourUsername:Yourpassword@localhost/dbName'```
+- import the ```db.sql``` in to your database
 - create the enviroment with ```virtualenv <yourEnviromentName>```  
 - Install all the requirements in your environment.
 

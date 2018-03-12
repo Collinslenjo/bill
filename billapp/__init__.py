@@ -5,7 +5,7 @@ from flask_login import LoginManager
 # Application Configuration
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:!Sparrtan1@localhost/billing'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:!Sparrtan1@localhost/bill'
 # for development only
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
