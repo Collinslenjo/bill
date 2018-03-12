@@ -15,3 +15,7 @@ After that, run the app using the command.
 `python run.py`
 
 Access the homepage on `http://localhost:5000`
+
+> ### Credentials
+Username(Email) : admin@example.com
+Password: testadmin123
