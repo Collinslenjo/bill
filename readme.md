@@ -1,4 +1,4 @@
-# Mova Pizza (Flask & mysql)
+# Pizza Ordering (Flask & mysql)
 
 ```git clone``` the repository and ```cd``` into the app directory.
 
